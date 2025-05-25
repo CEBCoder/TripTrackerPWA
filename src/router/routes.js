@@ -1,18 +1,26 @@
+import LoginPage from 'src/pages/LoginPage.vue'
+import SignInPage from 'src/pages/SignInPage.vue'
+import MainChofer from 'src/pages/MainChoferPage.vue'
+import ForgotPasswordPage from 'src/pages/ForgotPasswordPage.vue'
+
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'), // Ajusta según tu layout
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
-    ]
+      { path: '', redirect: '/login' }, // Ruta por defecto redirige a login
+      { path: 'login', component: LoginPage },
+      { path: 'register', component: SignInPage },
+      { path: 'main-chofer', component: MainChofer },
+      { path: 'forgot-password', component: ForgotPasswordPage },
+    ],
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
+  // Ruta fallback para 404
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
-  }
+    component: () => import('pages/ErrorNotFound.vue'),
+  },
 ]
 
 export default routes
