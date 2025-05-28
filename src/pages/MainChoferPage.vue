@@ -1,103 +1,121 @@
 <template>
-  <q-page padding class="flex flex-col items-center justify-between">
+  <q-page class="q-pa-md column items-center">
     <!-- Toolbar -->
-    <q-header elevated>
-      <q-toolbar class="bg-primary text-white">
-        <q-toolbar-title>TripTracker</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
+    <q-toolbar class="bg-primary text-white">
+      <q-toolbar-title>TripTracker</q-toolbar-title>
+    </q-toolbar>
 
-    <!-- Contenido central: botones con imágenes -->
-    <div class="q-my-md flex flex-col items-center gap-md" style="max-width: 200px; width: 100%">
+    <!-- Botones grandes con íconos o imágenes -->
+
+    <div class="q-my-md">
       <q-btn
-        flat
-        unelevated
-        class="q-my-sm"
         icon="attach_money"
         label="Precios"
-        style="width: 130px; height: 130px; font-size: 16px"
-        @click="goToPrecios"
-      >
-        <template #prepend>
-          <q-img src="statics/precios.png" style="width: 130px; height: 130px" />
-        </template>
-      </q-btn>
-
-      <q-btn
-        flat
-        unelevated
-        class="q-my-sm"
-        icon="directions_bus"
-        label="Vehículos"
-        style="width: 130px; height: 130px; font-size: 16px"
-        @click="goToVehiculos"
-      >
-        <template #prepend>
-          <q-img src="statics/vehiculos.png" style="width: 130px; height: 130px" />
-        </template>
-      </q-btn>
-
-      <q-btn
-        flat
-        unelevated
-        class="q-my-sm"
-        icon="domain"
-        label="Plantas"
-        style="width: 130px; height: 130px; font-size: 16px"
-        @click="goToPlantas"
-      >
-        <template #prepend>
-          <q-img src="statics/plantas.png" style="width: 130px; height: 130px" />
-        </template>
-      </q-btn>
+        color="primary"
+        style="width: 150px; height: 150px"
+        rounded
+        @click="goTo('precios')"
+        class="q-mb-sm"
+      />
     </div>
 
-    <!-- Bottom Menu -->
-    <q-footer elevated class="bg-white q-px-md q-py-sm">
-      <q-btn-group spread class="full-width">
-        <q-btn flat label="Conteo" icon="format_list_numbered" @click="goToConteo" />
+    <div class="q-my-md">
+      <q-btn
+        icon="directions_car"
+        label="Vehículos"
+        color="primary"
+        rounded
+        style="width: 150px; height: 150px"
+        @click="goTo('vehiculos')"
+        class="q-mb-sm"
+      />
+    </div>
 
-        <q-btn flat label="Registro" icon="edit_note" @click="goToRegistro" />
+    <div class="q-my-md">
+      <q-btn
+        icon="location_city"
+        label="Plantas"
+        color="primary"
+        rounded
+        style="width: 150px; height: 150px"
+        @click="goTo('plantas')"
+        class="q-mb-sm"
+      />
+    </div>
 
-        <q-btn flat label="Salir" icon="logout" color="negative" @click="logout" />
-      </q-btn-group>
+    <!-- Espacio para empujar el footer abajo -->
+
+    <!-- Footer fijo abajo -->
+    <q-footer elevated class="bg-white text-dark">
+      <div class="row justify-around q-pa-sm">
+        <q-btn flat dense @click="goTo('conteo')" class="column items-center q-mx-sm">
+          <div class="column items-center">
+            <q-icon name="bar_chart" size="32px" class="q-mb-xs" />
+            <div class="text-caption">Conteo</div>
+          </div>
+        </q-btn>
+
+        <q-btn flat dense @click="goTo('registro')" class="column items-center q-mx-sm">
+          <div class="column items-center">
+            <q-icon name="edit_note" size="32px" class="q-mb-xs" />
+            <div class="text-caption">Registro</div>
+          </div>
+        </q-btn>
+
+        <q-btn flat dense @click="logout" class="column items-center q-mx-sm">
+          <div class="column items-center">
+            <q-icon name="logout" size="32px" class="q-mb-xs" />
+            <div class="text-caption">Salir</div>
+          </div>
+        </q-btn>
+      </div>
     </q-footer>
   </q-page>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { auth } from 'src/boot/firebase'
+import { getAuth, signOut } from 'firebase/auth'
+import { useQuasar } from 'quasar'
 
+const $q = useQuasar()
 const router = useRouter()
+const auth = getAuth()
 
-function goToPrecios() {
-  router.push('/precios')
-}
-
-function goToVehiculos() {
-  router.push('/vehiculos')
-}
-
-function goToPlantas() {
-  router.push('/plantas')
-}
-
-function goToConteo() {
-  router.push('/conteo')
-}
-
-function goToRegistro() {
-  router.push('/registro')
+function goTo(route) {
+  switch (route) {
+    case 'precios':
+      router.push('/precios')
+      break
+    case 'vehiculos':
+      router.push('/vehiculos')
+      break
+    case 'plantas':
+      router.push('/plantas')
+      break
+    case 'conteo':
+      router.push('/conteo')
+      break
+    case 'registro':
+      router.push('/registro')
+      break
+  }
 }
 
 function logout() {
-  auth.signOut().then(() => {
-    router.push('/login')
-  })
+  signOut(auth)
+    .then(() => {
+      router.replace('/login')
+    })
+    .catch((error) => {
+      $q.notify({ type: 'negative', message: 'Error al cerrar sesión' })
+      console.error(error)
+    })
 }
 </script>
 
 <style scoped>
-/* Puedes agregar estilos específicos aquí si quieres */
+.q-img {
+  border-radius: 16px;
+}
 </style>

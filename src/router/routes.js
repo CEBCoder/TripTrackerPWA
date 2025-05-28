@@ -13,6 +13,18 @@ const routes = [
       { path: 'register', component: SignInPage },
       { path: 'main-chofer', component: MainChofer },
       { path: 'forgot-password', component: ForgotPasswordPage },
+      {
+        path: 'precios',
+        component: () => import('pages/PreciosPage.vue'),
+      },
+      {
+        path: 'vehiculos',
+        component: () => import('src/pages/VehiculosPage.vue'),
+      },
+      {
+        path: 'plantas',
+        component: () => import('pages/PlantasPage.vue'),
+      },
     ],
   },
 
