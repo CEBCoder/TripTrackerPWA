@@ -2,6 +2,7 @@
   command = "quasar build"
   publish = "dist/pwa"
 
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
