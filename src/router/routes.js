@@ -25,6 +25,14 @@ const routes = [
         path: 'plantas',
         component: () => import('pages/PlantasPage.vue'),
       },
+      {
+        path: '/registro',
+        component: () => import('pages/RegistrarViajePage.vue'),
+      },
+      {
+        path: '/conteo',
+        component: () => import('pages/ConteoPage.vue'),
+      },
     ],
   },
 
