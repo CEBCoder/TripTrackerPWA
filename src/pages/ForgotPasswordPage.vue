@@ -56,7 +56,7 @@ function resetPassword() {
       router.push('/login')
     })
     .catch((error) => {
-      $q.notify({ type: 'negative', message: `Error: ${error.message}` })
+      $q.notify({ type: 'negative', message: `Error  : ${error.message}` })
     })
     .finally(() => {
       loading.value = false
