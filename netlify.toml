@@ -1,7 +1,9 @@
 [build]
-  command = "quasar build"
-  publish = "dist/pwa"
+  command = "npm run build"
+  publish = "dist/spa"
 
+[build.environment]
+  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
