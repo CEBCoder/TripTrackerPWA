@@ -1,6 +1,7 @@
 [build]
 command = "npm run build && ls -l dist"
-publish = "dist/pwa"
+publish = "dist/spa"
+
 
 [build.environment]
 NODE_VERSION = "18"
